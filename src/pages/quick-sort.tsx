@@ -195,8 +195,8 @@ export default function QuickSort() {
         <p>グループの分割終了後、<span className='u-bold u-marker orange bold'>pivotは位置が確定している</span>点が重要です。</p>
       </div>
 
-      {/* <Link to='/'>Topへ戻る</Link> */}
-      <Link to='/certificate-exam-tracer/'>Topへ戻る</Link>
+      <Link to='/'>Topへ戻る</Link>
+      {/* <Link to='/certificate-exam-tracer/'>Topへ戻る</Link> */}
     </Container>
   )
 }
