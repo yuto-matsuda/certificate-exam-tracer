@@ -122,7 +122,8 @@ export default function InsertionSort() {
 
       </div>
 
-      <Link to='/'>Topへ戻る</Link>
+      {/* <Link to='/'>Topへ戻る</Link> */}
+      <Link to='/certificate-exam-tracer/'>Topへ戻る</Link>
     </Container>
   )
 }

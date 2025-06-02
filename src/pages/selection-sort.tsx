@@ -207,7 +207,8 @@ export default function SelectionSort() {
 
       </div>
 
-      <Link to='/'>Topへ戻る</Link>
+      {/* <Link to='/'>Topへ戻る</Link> */}
+      <Link to='/certificate-exam-tracer/'>Topへ戻る</Link>
     </Container>
   )
 }

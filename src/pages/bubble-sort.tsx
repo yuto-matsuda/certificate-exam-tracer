@@ -114,7 +114,8 @@ export default function BubbleSort() {
         <p>つまり、外側のループ(<span className='u-code'>i</span>)は<span className='u-marker orange bold'>値を確定させる要素番号</span>を、内側のループ(<span className='u-code'>j</span>)は<span className='u-marker orange bold'>比較基準の要素番号</span>を示しているのです。</p>
       </div>
 
-      <Link to='/'>Topへ戻る</Link>
+      {/* <Link to='/'>Topへ戻る</Link> */}
+      <Link to='/certificate-exam-tracer/'>Topへ戻る</Link>
     </Container>
   )
 }
