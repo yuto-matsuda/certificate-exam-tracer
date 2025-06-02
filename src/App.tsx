@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router'
+import { HashRouter, Routes, Route } from 'react-router'
 import Home from './pages/home'
 import Header from './components/header'
 import SelectionSort from './pages/selection-sort'
@@ -13,7 +13,7 @@ export default function App() {
   return (
     <>
       <Header />
-      <BrowserRouter basename='/certificate-exam-tracer/'>
+      <HashRouter>
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/selection-sort' element={<SelectionSort />} />
@@ -22,7 +22,7 @@ export default function App() {
           <Route path='/quick-sort'     element={<QuickSort />} />
           {/* <Route path='/bound-ball'     element={<BoundBall />} /> */}
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
     </>
   )
 }
