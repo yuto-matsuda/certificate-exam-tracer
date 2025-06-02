@@ -1,0 +1,124 @@
+/* Font */
+.u-bold {
+    font-weight: 600;
+}
+
+.u-small {
+    font-size: .9em;
+    color: #464646;
+}
+
+.u-italic {
+    font-style: italic;
+}
+
+.u-code {
+    font-family: Menlo, Consolas;
+    font-size: .9em;
+    color: rgba(0,0,0,.7);
+    background: rgba(0,0,0,.1);
+    border-radius: 3px;
+    padding: 0.25em;
+    margin: 0 .25em;
+}
+
+.u-sepline {
+    width: 100%;
+    margin: 0.75em 0;
+    border-bottom: 1px dashed #111;
+}
+
+@mixin marker($weight, $color) {
+    @if $weight == 'thin' {
+        background: linear-gradient(transparent 75%, $color 75%);
+    } @else {
+        background: linear-gradient(transparent 50%, $color 50%);
+    }
+}
+
+.u-marker {
+    &.thin {
+        &.yellow {
+            @include marker('thin', #ffff7f);
+        }
+
+        &.orange {
+            @include marker('thin', #ffc87f);
+        }
+
+        &.blue {
+            @include marker('thin', #7fccff);
+        }
+    }
+
+    &.bold {
+        &.yellow {
+            @include marker('bold', #ffff7f);
+        }
+
+        &.orange {
+            @include marker('bold', #ffc87f);
+        }
+
+        &.blue {
+            @include marker('bold', #7fccff);
+        }
+    }
+}
+
+/* Syntax highlight */
+.hl-str, .hl-val, .hl-hf {
+    color: #ec9751;
+}
+
+.hl-es, .hl-sel {
+    color: #ecbf51;
+}
+
+.hl-cm {
+    color: #5ba751;
+}
+
+.hl-k1, .hl-pp, .hl-at {
+    color: #d78ae7;
+}
+
+.hl-f {
+    color: #fafab7;
+}
+
+.hl-n {
+    color: #c9ec7e;
+}
+
+.hl-k2, .hl-tn, .hl-vt, .hl-mc {
+    color: #589bd8;
+}
+
+.hl-attr, .hl-prop, .hl-v, .hl-cs {
+    color: #b0f9fe;
+}
+
+.hl-tag {
+    color: #979797;
+}
+
+.hl-en {
+    color: #23c7ff;
+}
+
+.hl-al {
+    color: #1ae086;
+}
+
+.hl-b-1 {
+    color: #ffc400;
+}
+
+.hl-b-2 {
+    color: #fc5bff;
+}
+
+.hl-b-3 {
+    color: #3db5ff;
+}

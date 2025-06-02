@@ -1,0 +1,70 @@
+$orange: #ec933a;
+$blue:   #3366bd;
+
+@mixin dotList($color, $size: .5em, $margin: .25em) {
+    & > li {
+        position: relative;
+        padding-left: 1em;
+        font-size: .9em;
+        line-height: 1.6em;
+
+        &:not(:last-child) {
+            padding-bottom: .5em;
+        }
+
+        &::before {
+            content: '';
+            position: absolute;
+            background: $color;
+            width: $size;
+            height: $size;
+            left: $margin;
+            top: .55em;     // line-heightの半分 - 点の高さの半分
+            top: calc(.8em - $size / 2);
+            border-radius: 50%;
+        }
+    }
+}
+
+.dotList.orange {
+    @include dotList($orange);
+}
+
+.dotList.blue {
+    @include dotList($blue);
+}
+
+.dotList.orange {
+    @include dotList($orange);
+}
+
+.dotList.black {
+    @include dotList(#373737);
+}
+
+.katakanaList {
+    counter-reset: katakana-list;
+
+    li {
+        position: relative;
+
+        &::before {
+            counter-increment: katakana-list;
+            content: counter(katakana-list, katakana);
+            position: absolute;
+            top: .3em;
+            left: 0;
+            line-height: 1;
+            font-weight: 500;
+            padding: .25em;
+        }
+
+        &::after {
+            content: '.';
+            position: absolute;
+            top: 0;
+            left: 1.3em;
+            font-weight: 500;
+        }
+    }
+}

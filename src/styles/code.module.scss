@@ -1,0 +1,242 @@
+.wrapper {
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+    margin-bottom: 1.5em;
+
+    .title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+        font-size: 1rem;
+        font-weight: 500;
+        background: #a9afb5;
+        color: #272727;
+        border-radius: 10px 10px 0 0;
+
+        .icon {
+            font-size: 1.2em;
+            color: #0086ff;
+            padding: 0 0.5em 0 0.7em;
+        }
+    }
+
+    .tabField {
+        display: flex;
+        justify-content: space-between;
+        position: relative;
+        box-shadow: 0 2px 3px -1px rgba(0,0,0,.9);
+        z-index: 2;
+        background: #5e6163;
+
+        .tabs {
+            display: flex;
+            overflow: auto;
+            white-space: nowrap;
+        
+            .tab {
+                font-size: 0.8rem;
+                font-weight: 400;
+                color: #bdbdbd;
+                background: #4c4f52;
+                border-right: 1px solid #2e3235;
+                padding-right: 1em;
+                padding-top: 3px;
+                cursor: pointer;
+
+                &.activeTab {
+                    font-size: 0.9rem;
+                    color: #fff;
+                    background: #2e3235;
+                    padding-right: 0;
+                }
+
+                .closeIcon {
+                    padding: 0 .5em 0 1em;
+                }
+            }
+        }
+
+        .optionBtn {
+            color: #fff;
+            padding: 0 .5em;
+        }
+    }
+
+    .optionList {
+        &.open {
+            animation: openAnime .2s forwards;
+        }
+
+        &.close {
+            animation: closeAnime .2s forwards;
+
+            button {
+                pointer-events: none;
+            }
+        }
+
+        opacity: 0;
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 55px;
+        right: 10px;
+        z-index: 3;
+        font-size: 0.8rem;
+        background: #4c4f52;
+        box-shadow: 0 2px 3px rgb(0,0,0,.9);
+        border: 1px solid #bdbdbd;
+        border-radius: 5px;
+
+        button {
+            color: #fff;
+            text-align: left;
+            padding: .25em 1em;
+
+            &:first-child {
+                border-bottom: 1px solid #bdbdbd;
+            }
+
+            &.disabled {
+                color: #939393;
+                pointer-events: none;
+            }
+        }
+
+        .lineToggleBtn .icon {
+            padding-right: .5em;
+        }
+
+        .copyBtn .icon {
+            padding-right: .7em;
+        }
+    }
+
+    .src {
+        &.activeSrc {
+            display: flex;
+        }
+
+        display: none;
+        font-size: .9rem;
+        line-height: 1.4em;
+        letter-spacing: 0;
+        background: #2e3235;
+        color: #fff;
+        border-radius: 0 0 7px 7px;
+        max-height: 400px;
+        overflow: auto;
+        padding: 1em 1em 0 1em;
+
+        // overflow のせいでpadding-bottomが効かないため、同じ分のheightを設定
+        code::after {
+            content: '';
+            display: block;
+            height: 1em;
+        }
+
+        .lineNum {
+            display: flex;
+            flex-direction: column;
+            text-align: right;
+            color: #bdbdbd;
+            margin-right: 1.5em;
+            user-select: none;
+        }
+
+        &::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        &::-webkit-scrollbar-track {
+            background: #2e3235;
+            border-radius: 7px;
+        }
+
+        &::-webkit-scrollbar-corner {
+            background: #2e3235;
+            border-radius: 7px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: #5e6163;
+            border-radius: 7px;
+        }
+
+        code {
+            font-family: Menlo, Consolas;
+
+            &::selection {
+                background: rgba(55, 165, 255, 0.4);
+            }
+        }
+    }
+}
+
+@keyframes openAnime {
+    0% {
+        opacity: 0;
+    } 100% {
+        opacity: 1;
+    }
+}
+
+@keyframes closeAnime {
+    0% {
+        opacity: 1;
+    } 100% {
+        opacity: 0;
+    }
+}
+
+// File icons
+.cLangIcon::before {
+    content: 'C';
+    font-weight: 900;
+    color: #72c1ff;
+    padding: 0 .5em 0 .75em;
+}
+
+.jsLangIcon::before {
+    content: "JS";
+    font-weight: 500;
+    font-size: 0.9em;
+    letter-spacing: -.25px;
+    color: #fffd69;
+    padding: 0 0.5em 0 0.5em;
+}
+
+.tsLangIcon::before {
+    content: "TS";
+    font-weight: 400;
+    font-size: .9em;
+    color: #69bdff;
+    padding: 0 0.5em 0 0.5em;
+}
+
+.htmlLangIcon::before {
+    content: "< >";
+    display: inline-block;
+    font-weight: 900;
+    font-size: 1.2em;
+    color: #ec9751;
+    transform: scaleX(.6);
+}
+
+.reactIcon {
+    font-size: 1.2em;
+    padding: 0 .3em;
+    color: #69bdff;
+}
+
+.scssIcon {
+    padding: 0 .25em 0 0.5em;
+    color: #ed5262;
+}
+
+.exeIcon {
+    padding: 0 .5em;
+}

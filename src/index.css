@@ -1,0 +1,11 @@
+@import 'tailwindcss';
+@import url(http://fonts.googleapis.com/earlyaccess/notosansjp.css);
+
+body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background: #fffafa;
+}
+
+p {
+    margin-bottom: 1.5em;
+}
