@@ -7,7 +7,12 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+
+    "rm": "rm -rf docs",
+    "mv": "mv dist docs",
+    "git": "git add . && git commit -m 'deploy' && git push origin master",
+    "deploy": "npm run rm && npm run build && npm run mv && npm run git"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.8",
