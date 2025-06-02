@@ -10,7 +10,7 @@ export default function Home() {
         <ListItem><Link to='/bubble-sort'>バブルソート</Link></ListItem>
         <ListItem><Link to='/insertion-sort'>挿入ソート</Link></ListItem>
         <ListItem><Link to='/quick-sort'>クイックソート</Link></ListItem>
-        <ListItem><Link to='/bound-ball'>バウンドボール</Link></ListItem>
+        {/* <ListItem><Link to='/bound-ball'>バウンドボール</Link></ListItem> */}
         {/* <ListItem><Link to='/'></Link></ListItem> */}
       </DotList>
     </div>
