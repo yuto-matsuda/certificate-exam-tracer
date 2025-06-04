@@ -4,10 +4,13 @@ import { validateNumber } from '../utils/validate-form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faForwardStep, faPause, faPlay, faStop } from '@fortawesome/free-solid-svg-icons';
 import Container from '../components/container';
-import Accordion from '../components/accordion';
+// import Accordion from '../components/accordion';
 import Heading from '../components/heading';
 import ControlButton from '../components/control-button';
 import DisplayParameters from '../components/display-parameters';
+import { Code, CodeSource, CodeTabField, CodeTab } from '../components/code';
+import { DotList, ListItem } from '../components/list';
+import Link from '../components/link';
 
 const canvasWidth  = 600;
 const canvasHeight = 400;
@@ -208,12 +211,88 @@ export default function BoundBall() {
           cnt: currentParams.cnt,
         }}
       />
-      <Accordion>
+      <p>ループ内では「円を描写する→次の描写位置を求める」の順序で処理が行われるため、表示されるパラメータは1つ未来のものであることに注意！</p>
+
+      <div className='u-sepline'></div>
+        
+      <Heading small>対象分野</Heading>
+      <DotList color='blue'>
+        <ListItem><span className='u-bold'>アルゴリズム:</span> 練習問題7.12(p.106)</ListItem>
+      </DotList>
+
+      <div className='u-sepline'></div>
+
+      <Heading small>ソースコード</Heading>
+      <Code title='クイックソート'>
+          <CodeTabField>
+              <CodeTab
+                tabKey={1}
+                fileName='boundBall.c'
+                format='c'
+              />
+          </CodeTabField>
+          <CodeSource 
+            tabKey={1}
+            highlightedString={`<span class='hl-pp'>#include</span> <span class='hl-hf'>&lt;stdio.h&gt;</span>
+<span class='hl-pp'>#define</span> <span class='hl-mc'>MAX_BOUNCE</span> <span class='hl-n'>50</span>
+<span class='hl-pp'>#define</span> <span class='hl-mc'>WIDTH</span>  <span class='hl-n'>600</span>
+<span class='hl-pp'>#define</span> <span class='hl-mc'>HEIGHT</span> <span class='hl-n'>400</span>
+
+<span class='hl-vt'>void</span> <span class='hl-f'>init_graphic</span><span class='hl-b-1'>(</span><span class='hl-vt'>void</span><span class='hl-b-1'>)</span>;  <span class='hl-cm'>// グラフィック初期化(未実装)</span>
+<span class='hl-vt'>void</span> <span class='hl-f'>draw_circle</span><span class='hl-b-1'>(</span><span class='hl-vt'>int</span>, <span class='hl-vt'>int</span>, <span class='hl-vt'>int</span><span class='hl-b-1'>)</span>;  <span class='hl-cm'>// 円描画(未実装)</span>
+<span class='hl-vt'>void</span> <span class='hl-f'>wait</span><span class='hl-b-1'>(</span><span class='hl-vt'>int</span><span class='hl-b-1'>)</span>;  <span class='hl-cm'>// 時間待ち(未実装)</span>
+
+<span class='hl-vt'>int</span> <span class='hl-f'>main</span><span class='hl-b-1'>(</span><span class='hl-vt'>void</span><span class='hl-b-1'>)</span> <span class='hl-b-1'>{</span>
+    <span class='hl-vt'>int</span> <span class='hl-v'>x0</span>, <span class='hl-v'>y0</span>, <span class='hl-v'>dx</span>, <span class='hl-v'>dy</span>;
+    <span class='hl-vt'>int</span> <span class='hl-v'>r</span>, <span class='hl-v'>cnt</span>, <span class='hl-v'>flag</span>;
+
+    <span class='hl-f'>init_graphic</span><span class='hl-b-2'>(</span><span class='hl-b-2'>)</span>;
+
+    <span class='hl-cm'>// パラメータ入力</span>
+    <span class='hl-f'>printf</span><span class='hl-b-2'>(</span><span class='hl-str'>&quot;x0,</span> <span class='hl-str'>y0</span> <span class='hl-str'>&gt;&gt;&gt;</span> <span class='hl-str'>&quot;</span><span class='hl-b-2'>)</span>;
+    <span class='hl-f'>scanf</span><span class='hl-b-2'>(</span><span class='hl-str'>&quot;</span><span class='hl-cs'>%d</span><span class='hl-str'>,</span> <span class='hl-cs'>%d</span><span class='hl-str'>&quot;</span>, &<span class='hl-v'>x0</span>, &<span class='hl-v'>y0</span><span class='hl-b-2'>)</span>;
+    <span class='hl-f'>printf</span><span class='hl-b-2'>(</span><span class='hl-str'>&quot;dx,</span> <span class='hl-str'>dy</span> <span class='hl-str'>&gt;&gt;&gt;</span> <span class='hl-str'>&quot;</span><span class='hl-b-2'>)</span>;
+    <span class='hl-f'>scanf</span><span class='hl-b-2'>(</span><span class='hl-str'>&quot;</span><span class='hl-cs'>%d</span><span class='hl-str'>,</span> <span class='hl-cs'>%d</span><span class='hl-str'>&quot;</span>, &<span class='hl-v'>dx</span>, &<span class='hl-v'>dy</span><span class='hl-b-2'>)</span>;
+    
+    <span class='hl-v'>r</span> = <span class='hl-n'>10</span>;
+    <span class='hl-v'>cnt</span> = <span class='hl-n'>1</span>;
+
+    <span class='hl-k1'>while</span> <span class='hl-b-2'>(</span><span class='hl-v'>cnt</span> &lt;= <span class='hl-mc'>MAX_BOUNCE</span><span class='hl-b-2'>)</span> <span class='hl-b-2'>{</span>
+        <span class='hl-f'>draw_circle</span><span class='hl-b-3'>(</span><span class='hl-b-3'>)</span>;
+        
+        <span class='hl-v'>flag</span> = <span class='hl-n'>0</span>;
+        <span class='hl-k1'>if</span> <span class='hl-b-3'>(</span><span class='hl-b-1'>(</span><span class='hl-v'>x0</span> - <span class='hl-v'>r</span><span class='hl-b-1'>)</span> &lt;= <span class='hl-n'>0</span> || <span class='hl-b-1'>(</span><span class='hl-v'>x0</span> + <span class='hl-v'>r</span><span class='hl-b-1'>)</span> &gt;= <span class='hl-mc'>WIDTH</span> - <span class='hl-n'>1</span><span class='hl-b-3'>)</span> <span class='hl-b-3'>{</span>
+            <span class='hl-v'>dx</span> = -<span class='hl-v'>dx</span>;
+            <span class='hl-v'>flag</span> = <span class='hl-n'>1</span>;
+        <span class='hl-b-3'>}</span>
+        <span class='hl-k1'>if</span> <span class='hl-b-3'>(</span><span class='hl-b-1'>(</span><span class='hl-v'>y0</span> - <span class='hl-v'>r</span><span class='hl-b-1'>)</span> &lt;= <span class='hl-n'>0</span> || <span class='hl-b-1'>(</span><span class='hl-v'>y0</span> + <span class='hl-v'>r</span><span class='hl-b-1'>)</span> &gt;= <span class='hl-mc'>HEIGHT</span> - <span class='hl-n'>1</span><span class='hl-b-3'>)</span> <span class='hl-b-3'>{</span>
+            <span class='hl-v'>dy</span> = -<span class='hl-v'>dy</span>;
+            <span class='hl-v'>flag</span> = <span class='hl-n'>1</span>;
+        <span class='hl-b-3'>}</span>
+
+        <span class='hl-v'>x0</span> = <span class='hl-v'>x0</span> + <span class='hl-v'>dx</span>;
+        <span class='hl-v'>y0</span> = <span class='hl-v'>y0</span> + <span class='hl-v'>dy</span>;
+
+        <span class='hl-k1'>if</span> <span class='hl-b-3'>(</span><span class='hl-v'>flag</span><span class='hl-b-3'>)</span> <span class='hl-v'>cnt</span>++;
+
+        <span class='hl-f'>wait</span><span class='hl-b-3'>(</span><span class='hl-n'>100</span><span class='hl-b-3'>)</span>;
+    <span class='hl-b-2'>}</span>
+<span class='hl-b-1'>}</span>`}
+          />
+      </Code>
+      <div>
+        <p><span className='u-code'>boundBall.c</span>は練習問題7.12をもしもC言語で書くならという紹介です。</p>
+        <p>実際には動かないので注意してください。</p>
+      </div>
+
+      <Link to='/'>Topへ戻る</Link>
+
+      {/* <Accordion>
         <div>注意点</div>
         <div>
           <p>ループ内では「円を描写する→次の描写位置を求める」の順序で処理が行われるため、表示されるパラメータは1つ未来のものであることに注意！</p>
         </div>
-    </Accordion>
+      </Accordion> */}
     </Container>
   )
 }

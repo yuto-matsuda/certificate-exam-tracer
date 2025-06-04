@@ -90,58 +90,33 @@ export function useInsertionSort({
     const [cnt, setCnt] = useState(0);
     const [isDone, setIsDone] = useState(false);
 
-    // const step = () => {
-    //     let newArray = [...array];
-    //     const len = array.length;
-
-
-    //     const nextI = i + 1;
-    //     if (j < 0 || array[j] <= t) {
-    //         newArray[j + 1] = t;
-    //         setArray(newArray);
-    //         setI(nextI);
-    //         setJ(nextI);
-    //         setT(newArray[nextI + 1]);
-    //     } else {
-    //         newArray[j + 1] = newArray[j];
-    //         setArray(newArray);
-    //         setJ(prev => prev - 1);
-    //     }
-
-    //     if (nextI >= len - 1) {
-    //         setIsDone(true);
-    //     }
-
-    //     setCnt(prev => prev + 1);
-    // }
-
     const step = () => {
-    if (isDone) return;
+        if (isDone) return;
 
-    let newArray = [...array];
-    const len = array.length;
+        let newArray = [...array];
+        const len = array.length;
 
-    if (j < 0 || array[j] <= t) {
-        newArray[j + 1] = t;
-        const nextI = i + 1;
+        if (j < 0 || array[j] <= t) {
+            newArray[j + 1] = t;
+            const nextI = i + 1;
 
-        setArray(newArray);
-        setI(nextI);
+            setArray(newArray);
+            setI(nextI);
 
-        if (nextI >= len - 1) {
-            setIsDone(true);
+            if (nextI >= len - 1) {
+                setIsDone(true);
+            } else {
+                setT(newArray[nextI + 1]);
+                setJ(nextI);
+            }
         } else {
-            setT(newArray[nextI + 1]);
-            setJ(nextI);
+            newArray[j + 1] = newArray[j];
+            setArray(newArray);
+            setJ((prev) => prev - 1);
         }
-    } else {
-        newArray[j + 1] = newArray[j];
-        setArray(newArray);
-        setJ((prev) => prev - 1);
-    }
 
-    setCnt((prev) => prev + 1);
-};
+        setCnt((prev) => prev + 1);
+    };
 
     const reset = () => {
         const _array = generateArray({ len });
@@ -154,4 +129,121 @@ export function useInsertionSort({
     }
 
     return [array, i, j, t, cnt, isDone, step, reset];
+}
+
+export function useQuickSort({
+    len = 7,
+}: {
+    len?:     number
+} = {}): [
+    array:  number[],
+    left:   number,
+    right:  number,
+    pivot:  number,
+    lp:     number,
+    rp:     number,
+    action: string,
+    sorted: number[],
+    cnt:    number,
+    isDone: boolean,
+    step:   () => void,
+    reset:  (dataset?: number[] | null) => void,
+]{
+    type Action = 
+        | 'startPartition'
+        | 'moveLp'
+        | 'moveRp'
+        | 'finishPartition'
+        | 'done';
+
+    const _array = generateArray({ len });
+    const [array, setArray]       = useState(_array);
+    const [left, setLeft]         = useState(0);
+    const [right, setRight]       = useState(len - 1);
+    const [pivotPos, setPivotPos] = useState(0); 
+    const [lp, setLp]             = useState(0);
+    const [rp, setRp]             = useState(len - 1);
+    const [stack, setStack]       = useState([[0, len - 1]]);
+    const [action, setAction]     = useState<Action>('startPartition');
+    const [sorted, setSorted]     = useState<number[]>([]);
+    const [cnt, setCnt]           = useState(0);
+    const [isDone, setIsDone]     = useState(false);
+
+    const step = () => {
+        if (isDone) return;
+        let newArray = [...array];
+        const newStack = [...stack];
+        const pivotValue = newArray[pivotPos];
+
+        switch (action) {
+            case 'startPartition':
+                const [_left, _right] = newStack.pop()!;
+                if (_left >= _right) {
+                    if (newStack.length === 0) {
+                        setIsDone(true);
+                        setAction('done');
+                    }
+                    setStack(newStack);
+                    setSorted(prev => [...prev, _left]);
+                    return;
+                }
+                
+                setLeft(_left);
+                setRight(_right);
+                setPivotPos(_left);
+                setLp(_left + 1);
+                setRp(_right);
+                setStack(newStack);
+                setAction('moveLp');
+                break;
+
+            case 'moveLp':
+                if (lp <= rp && newArray[lp] <= pivotValue) {
+                    setLp(prev => prev + 1);
+                } else {
+                    setAction('moveRp');
+                }
+                setCnt(prev => prev + 1);
+                break;
+
+            case 'moveRp':
+                if (lp <= rp && newArray[rp] > pivotValue) {
+                    setRp(prev => prev - 1);
+                } else if (lp < rp) {
+                    [newArray[lp], newArray[rp]] = [newArray[rp], newArray[lp]];
+                    setArray(newArray);
+                    setAction('moveLp');
+                } else {
+                    [newArray[pivotPos], newArray[rp]] = [newArray[rp], newArray[pivotPos]];
+                    setArray(newArray);
+                    setPivotPos(rp);
+                    setSorted(prev => [...prev, rp]);
+
+                    newStack.push([rp + 1, right]);
+                    newStack.push([left, rp - 1]);
+                    setStack(newStack);
+
+                    setAction('startPartition');
+                }
+                setCnt(prev => prev + 1);
+                break;
+        }
+    }
+
+    const reset = (dataset?: number[] | null) => {
+        const _array = dataset ?? generateArray({ len });
+        setArray(_array);
+        setLeft(0);
+        setRight(len - 1);
+        setPivotPos(0);
+        setLp(0);
+        setRp(len - 1);
+        setStack([[0, len - 1]]);
+        setAction('startPartition');
+        setSorted([]);
+        setCnt(0);
+        setIsDone(false);
+    }
+
+    return [array, left, right, pivotPos, lp, rp, action, sorted, cnt, isDone, step, reset];
 }

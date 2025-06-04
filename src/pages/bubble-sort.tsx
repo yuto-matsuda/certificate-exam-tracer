@@ -41,7 +41,7 @@ export default function BubbleSort() {
           cnt: cnt,
         }}
       />
-      <p className='u-small'>※<span className='u-code'>cnt</span>は実行回数</p>
+      <p className='u-small'>※<span className='u-code'>cnt</span>は比較回数</p>
 
       <div className='u-sepline'></div>
 

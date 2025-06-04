@@ -5,7 +5,7 @@ import SelectionSort from './pages/selection-sort'
 import BubbleSort from './pages/bubble-sort'
 import InsertionSort from './pages/insertion-sort'
 import QuickSort from './pages/quick-sort'
-// import BoundBall from './pages/bound-ball'
+import BoundBall from './pages/bound-ball'
 
 
 // github pagesようにbaseを追加したから、ルートでのルーティングが使えない
@@ -20,7 +20,7 @@ export default function App() {
           <Route path='/bubble-sort'    element={<BubbleSort />} />
           <Route path='/insertion-sort' element={<InsertionSort />} />
           <Route path='/quick-sort'     element={<QuickSort />} />
-          {/* <Route path='/bound-ball'     element={<BoundBall />} /> */}
+          <Route path='/bound-ball'     element={<BoundBall />} />
         </Routes>
       </HashRouter>
     </>
