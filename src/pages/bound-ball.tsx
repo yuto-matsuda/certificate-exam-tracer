@@ -223,7 +223,7 @@ export default function BoundBall() {
       <div className='u-sepline'></div>
 
       <Heading small>ソースコード</Heading>
-      <Code title='クイックソート'>
+      <Code title='バウンドボール'>
           <CodeTabField>
               <CodeTab
                 tabKey={1}
