@@ -147,7 +147,7 @@ export function useQuickSort({
     cnt:    number,
     isDone: boolean,
     step:   () => void,
-    reset:  (dataset?: number[] | null) => void,
+    reset:  (dataset: number[] | null, pivotPos: string) => void,
 ]{
     type Action = 
         | 'startPartition'
@@ -168,6 +168,7 @@ export function useQuickSort({
     const [sorted, setSorted]     = useState<number[]>([]);
     const [cnt, setCnt]           = useState(0);
     const [isDone, setIsDone]     = useState(false);
+    const [pivotConfig, setPivotCongig] = useState('left');
 
     const step = () => {
         if (isDone) return;
@@ -190,15 +191,15 @@ export function useQuickSort({
                 
                 setLeft(_left);
                 setRight(_right);
-                setPivotPos(_left);
-                setLp(_left + 1);
-                setRp(_right);
+                setPivotPos(pivotConfig === 'left' ? _left : _right);
+                setLp(pivotConfig === 'left' ? _left + 1 : _left);
+                setRp(pivotConfig === 'left' ? _right : _right - 1);
                 setStack(newStack);
                 setAction('moveLp');
                 break;
 
             case 'moveLp':
-                if (lp <= rp && newArray[lp] <= pivotValue) {
+                if (lp <= rp && ((pivotConfig === 'left' && newArray[lp] <= pivotValue) || (pivotConfig === 'right' && newArray[lp] < pivotValue))) {
                     setLp(prev => prev + 1);
                 } else {
                     setAction('moveRp');
@@ -207,35 +208,40 @@ export function useQuickSort({
                 break;
 
             case 'moveRp':
-                if (lp <= rp && newArray[rp] > pivotValue) {
+                if (lp <= rp && ((pivotConfig === 'left' && newArray[rp] > pivotValue) || (pivotConfig === 'right' && newArray[rp] >= pivotValue))) {
                     setRp(prev => prev - 1);
+                    setCnt(prev => prev + 1);
                 } else if (lp < rp) {
                     [newArray[lp], newArray[rp]] = [newArray[rp], newArray[lp]];
                     setArray(newArray);
                     setAction('moveLp');
+                    setCnt(prev => prev + 1);
                 } else {
-                    [newArray[pivotPos], newArray[rp]] = [newArray[rp], newArray[pivotPos]];
+                    if (pivotConfig === 'left') {
+                        [newArray[pivotPos], newArray[rp]] = [newArray[rp], newArray[pivotPos]];
+                    } else {
+                        [newArray[pivotPos], newArray[lp]] = [newArray[lp], newArray[pivotPos]];
+                    }
                     setArray(newArray);
-                    setPivotPos(rp);
-                    setSorted(prev => [...prev, rp]);
+                    setPivotPos(pivotConfig === 'left' ? rp : lp);
+                    setSorted(prev => [...prev, pivotConfig === 'left' ? rp : lp]);
 
-                    newStack.push([rp + 1, right]);
-                    newStack.push([left, rp - 1]);
+                    newStack.push(pivotConfig === 'left' ? [rp + 1, right] : [lp + 1, right]);
+                    newStack.push(pivotConfig === 'left' ? [left, rp - 1]  : [left, lp - 1]);
                     setStack(newStack);
 
                     setAction('startPartition');
                 }
-                setCnt(prev => prev + 1);
                 break;
         }
     }
 
-    const reset = (dataset?: number[] | null) => {
+    const reset = (dataset:  number[] | null, pivotPos: string) => {
         const _array = dataset ?? generateArray({ len });
         setArray(_array);
         setLeft(0);
         setRight(len - 1);
-        setPivotPos(0);
+        setPivotPos(pivotPos === 'left' ? 0 : len - 1);
         setLp(0);
         setRp(len - 1);
         setStack([[0, len - 1]]);
@@ -243,6 +249,7 @@ export function useQuickSort({
         setSorted([]);
         setCnt(0);
         setIsDone(false);
+        setPivotCongig(pivotPos);
     }
 
     return [array, left, right, pivotPos, lp, rp, action, sorted, cnt, isDone, step, reset];
